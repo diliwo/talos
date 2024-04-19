@@ -1,0 +1,13 @@
+# 2022 version
+apiVersion: v1
+kind: Pod
+metadata:
+  name: first-pod
+  labels:
+    project: demo-1030
+spec:
+  containers:
+    - name: web-ctr
+      image: lasynsec/demo-1030:1.0
+      ports:
+        - containerPort: 8080

@@ -1,0 +1,27 @@
+apiVersion: apps/v1 # Type d'objet définit
+kind: Deployment # Version de la spécification d'objet
+metadata:
+  name: demo-deploy
+spec:
+  replicas: 5 # Le nombre d'instances
+  selector:
+    matchLabels: # Indique au controleur de déploiement...
+      project: demo-1030 # quels Pods gérer
+  minReadySeconds: 20 # attendre 20 secondes après la mise à jour de chaque réplique.
+  strategy:
+    type: RollingUpdate # Effectue la mise à jour en tant que mise à jour continue
+    rollingUpdate:
+      maxUnavailable: 0 # Nbr maximal de Pod pouvant être indisponible durant la mise à jour. Ici 5 replicas donc pas moins de 5.
+      maxSurge: 1 # Seulement 1 Pod à la fois peut être ajouté pendant la mise à jour. Ici 5 replicats donc pas plus de 6 Pod. 
+  template:
+    metadata:
+      labels:
+        project: demo-1030 # Label du Pod
+    spec: 
+      containers:
+      - name: web-app
+        imagePullPolicy: Always # Ne jamais utiliser d'images locales
+        ports:
+        - containerPort: 8080 # Port réseau
+        image: lasynsec/demo-1030:1.0 # Image contenant l'application
+
