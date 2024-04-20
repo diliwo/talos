@@ -23,5 +23,5 @@ spec:
         imagePullPolicy: Always # Ne jamais utiliser d'images locales
         ports:
         - containerPort: 8080 # Port réseau
-        image: lasynsec/demo-1030:1.0 # Image contenant l'application
+        image: lasynsec/demo-1030:1.1 # Image contenant l'application
 
