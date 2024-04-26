@@ -1,3 +1,3 @@
-talosctl apply -f rendered/controlplane.yaml -n 192.168.56.113 --insecure
-talosctl apply -f rendered/controlplane.yaml -n 192.168.56.114 --insecure
-talosctl apply -f rendered/controlplane.yaml -n 192.168.56.115 --insecure
+talosctl apply -f rendered/controlplane.yaml -n 192.168.56.119 --insecure
+talosctl apply -f rendered/controlplane.yaml -n 192.168.56.120 --insecure
+talosctl apply -f rendered/controlplane.yaml -n 192.168.56.121 --insecure

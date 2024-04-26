@@ -17,11 +17,13 @@ spec:
     metadata:
       labels:
         project: demo-1030 # Label du Pod
-    spec: 
+    spec:
+      imagePullSecrets:
+      - name: dockerhub-secret
       containers:
       - name: web-app
         imagePullPolicy: Always # Ne jamais utiliser d'images locales
         ports:
         - containerPort: 8080 # Port réseau
-        image: lasynsec/demo-1030:1.1 # Image contenant l'application
+        image: informatique1030/demo-1030:1.0 # Image contenant l'application
 

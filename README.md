@@ -33,7 +33,17 @@ Docs : https://www.talos.dev/v1.5/reference/configuration/#clusterconfig
     # install Kubectl
     $ choco install kubernetes-cli
 
+    # install Theila
+    https://github.com/siderolabs/theila/releases
+
 2 - Installation steps Talos Linux & Kubernetes on Vms :
+
+    Assign IP addresses :
+        - WITH DHCP ( choose a range to make sure the vip ip address will not be in the range)
+        - MANUALTY by clicking "e" in the machine booting time and adding the line : 
+            ip=[client-ip]:[srv-ip]:[gw-ip]:[netmask]:[host]:[device]:[autoconf]
+
+            ip=192.168.56.114::192.168.0.1:255.255.255.0:eth0:off
 
     A# Generate secretes bundle
         talosctl gen secrets --output-file _out/secrets.yaml
@@ -69,30 +79,34 @@ Wait for Vm auto configuration !!!!!!!!!!
 
     # Set env variable via Powershell
     $env:TALOSCONFIG = "./rendered/talosconfig"
+    echo $env:TALOSCONFIG
     
     # Set the endpoints for loadbalancing
-    talosctl config endpoint 192.168.56.113 192.168.56.114 192.168.56.115
+    talosctl config endpoint 192.168.56.119 192.168.56.120 192.168.56.121
 
 5 - configure a default node to target with Talos command
 
-    talosctl config node 192.168.56.113
+    talosctl config node 192.168.56.119
 
 6 - Bootstrap etcd in a node(any node) and watch logs
 
-    A# - talosctl bootstrap -n 192.168.56.113
-    B# - talosctl -n 192.168.56.113 logs etcd
+    A# - talosctl bootstrap -n 192.168.56.119
+    B# - talosctl health
 
-###########################
-Here all machines are ready
-###########################
+######################################
+Here all machines are ready!!!!!!!!!!!
+######################################
     
-7 - Watch logs in the real-time
+7 - Watch healthCheck and logs in the real-time
 
-    talosctl dashboard -n 192.168.56.113
+    talosctl.exe health
+    talosctl.exe -n 192.168.56.119 get members
+    talosctl dashboard -n 192.168.56.119
+    talosctl -n 192.168.56.119 logs etcd
 
 8 - Fetch the Kubeconfig for the cluster (running against any node)
 
-    talosctl kubeconfig -n 192.168.56.113
+    talosctl kubeconfig -n 192.168.56.119
 
 9 - Get current cluster
 
@@ -100,8 +114,8 @@ Here all machines are ready
 
 10 - Deploying and running manually the demo app to the cluster
 
-    kubectl create deployment web-ctr --image lasynsec/demo-1030:1.0 --replicas 1
-    kubectl expose deployment web-ctr --type NodePort --port 8080
+    kubectl create deployment web-app --image lasynsec/demo-1030:1.0 --replicas 1
+    kubectl expose deployment web-app --type NodePort --port 8080
 
 11 - Delete deployment and service
     
@@ -110,6 +124,11 @@ Here all machines are ready
 
 12 - Auto-Healing Pod (Réparation automatique)
 
+    # Connect to Docker hub
+    A - kubectl.exe create secret docker-registry dockerhub-secret --docker-server=https://index.docker.io/v1/ --docker-username=lasynsec --docker-password=D0cker-1O3O --docker-email=informatique@cpas-schaerbeek.brussels
+    B - do
+
+    # Create pods
     A - kubectl.exe apply -f .\demo-app\svc-local.yml
     B - kubectl.exe apply -f .\demo-app\deploy.yml
     C - kubectl.exe delete pod [pod-name]
